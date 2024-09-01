@@ -1,0 +1,31 @@
+package pong;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
+	public class paddle extends Rectangle {
+
+		public paddle(int x, int y, int width, int height) {
+			super(x,y,width,height);	
+		}
+		
+		public void drawRed(Graphics2D pb) {
+			pb.setColor(Color.red);
+			pb.draw(this);
+			pb.fill(this);
+		}
+		
+		public void drawBlue(Graphics2D pb) {
+			pb.setColor(Color.blue);
+			pb.draw(this);
+			pb.fill(this);
+		}
+		
+		public void drawMiddle(Graphics2D pb) {
+			pb.setColor(Color.DARK_GRAY);
+			pb.draw(this);
+			pb.fill(this);
+		}
+		
+	}
