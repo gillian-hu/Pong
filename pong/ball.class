@@ -1,0 +1,107 @@
+package pong;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+
+import utilities.GDV5;
+
+public class ball extends Rectangle {
+
+	boolean s = true;
+	boolean t = true;
+	public static int dy;
+	public static int smashball;
+	public static boolean smashballB;
+	public String smash = "SMASH!";
+	public static boolean computer = false;
+	public int previousXPos;
+
+	public ball(int x, int y, int width, int height) {
+		super(x,y,width,height);	
+	}
+	
+	public void draw(Graphics2D pb) {
+		pb.setColor(Color.white);
+		pb.drawOval(x, y, width, height);
+		pb.fillOval(x, y, width, height);
+		if (smashballB == true) {
+			pb.setColor(Color.white);
+			pb.setFont(new Font("Monospaced Bold", Font.PLAIN, 30));
+			pb.drawString(String.valueOf(smash),550, 400);
+		}
+		
+	}
+	
+	public void move(ball ball, paddle paddle1, paddle paddle2) {
+		boolean speedUp = false;
+		if (ball.y < 0) {
+			t = false;
+		}
+		if (ball.y > 780) {
+			t = true;
+		}
+		
+		if (ball.y <= 0) {
+			dy = -1;
+		}
+		
+		if (ball.y + 20 >= 800) {
+			dy = 1;
+		}
+		
+		if ((ball.x + 20) >= paddle2.x && (ball.x + 20) <= (paddle2.x + 20) && ball.y < (paddle2.y + 100) && ball.y > (paddle2.y)) {
+			s = false;
+			if ((GDV5.KeysPressed[KeyEvent.VK_UP]) && dy == -1) {
+				smashball += 1;
+				smashballB = true;
+			}
+			if ((GDV5.KeysPressed[KeyEvent.VK_DOWN]) && dy == 1) {
+				smashball += 1;
+				smashballB = true;
+			}
+		}
+		if ((ball.x) <= (paddle1.x + 20) && (ball.x) >= (paddle1.x - 20) && ball.y < (paddle1.y + 100) && ball.y > (paddle1.y)) {
+			s = true;
+			if ((GDV5.KeysPressed[KeyEvent.VK_W]) && dy == -1) {
+				smashball += 1;
+				smashballB = true;
+			}
+			if ((GDV5.KeysPressed[KeyEvent.VK_S]) && dy == 1) {
+				smashball += 1;
+				smashballB = true;
+			}
+		}
+		
+		if (ball.x >= 580 && ball.x <= 620) {
+			smashballB = false;
+		}
+		
+		if (s == true) {
+			ball.x += (2 + smashball);
+		}
+		if (s == false) {
+			ball.x -= (2 + smashball);
+		}
+		if (t == true) {
+			ball.y -= (2 + smashball);
+		}
+		if (t == false) {
+			ball.y += (2 + smashball);
+		}
+		if (GDV5.KeysPressed[KeyEvent.VK_UP]) {
+			paddle2.y -= 10;
+		}
+		if (GDV5.KeysPressed[KeyEvent.VK_DOWN]) {
+			paddle2.y += 10;
+		}
+		if (GDV5.KeysPressed[KeyEvent.VK_W]) {
+			paddle1.y -= 10;
+		}
+		if (GDV5.KeysPressed[KeyEvent.VK_S]) {
+			paddle1.y += 10;
+		}
+	}
+}
