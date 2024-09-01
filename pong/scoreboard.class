@@ -1,0 +1,103 @@
+package pong;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+
+import utilities.GDV5;
+
+public class scoreboard {
+
+	public static int score1;
+	public static int score2;
+	private String pongP = "P";
+	private String pongO = "O";
+	private String pongN = "N";
+	private String pongG = "G";
+	private String pongEnd = "!";
+	private String multiPlayer = "Press 1 to start for Multiplayer";
+	private String singlePlayer = "Press 2 to start for Single Player";
+	private String blueDirections = "Use the up and down arrow keys to move the blue paddle up and down";
+	private String redDirections = "Use the W and S keys to move the red paddle up and down";
+	private String rules = "First player to score 10 points wins";
+	private String redWins = "Red Wins!";
+	private String blueWins = "Blue Wins!";
+	private String startOver = "Press 3 to Restart.";
+	
+	public void updateScore(scoreboard scoreboard, ball ball) {
+		if (ball.x + 20 >= 1197) {
+			score1 += 1;
+			ball.x = 590;
+			ball.y = 390;
+		}
+		if (ball.x <= 3) {
+			score2 += 1;
+			ball.x = 590;
+			ball.y = 390;
+		}
+		if (GDV5.KeysPressed[KeyEvent.VK_3]) {
+			score1 = 0;
+			score2 = 0;
+			ball.smashball = 0;
+		}
+	}
+	
+	public void draw(Graphics2D pb) {
+			pb.setColor(Color.green);
+			pb.setFont(new Font("Monospaced", Font.BOLD, 70));
+			pb.drawString(String.valueOf(pongP),490, 200);
+			pb.setColor(Color.magenta);
+			pb.drawString(String.valueOf(pongO),540, 200);
+			pb.setColor(Color.cyan);
+			pb.drawString(String.valueOf(pongN),590, 200);
+			pb.setColor(Color.orange);
+			pb.drawString(String.valueOf(pongG),640, 200);
+			pb.setColor(Color.pink);
+			pb.drawString(String.valueOf(pongEnd),680, 200);
+			pb.setFont(new Font("Arial", Font.PLAIN, 25));
+			pb.setColor(Color.white);
+			pb.setColor(Color.LIGHT_GRAY);
+			pb.drawString(String.valueOf(blueDirections),210, 340);
+			pb.drawString(String.valueOf(redDirections),280, 430);
+			pb.drawString(String.valueOf(rules),400, 520);
+			pb.setColor(Color.white);
+			pb.drawString(String.valueOf(multiPlayer),430, 610);
+			pb.drawString(String.valueOf(singlePlayer), 420, 700);
+	}
+	
+	public void drawScore(Graphics2D pd) {
+		if (score1 >= 10 || score2 >= 10) {
+			if (score1 >= 10) {
+				pd.setColor(Color.red);
+				pd.setFont(new Font("Monospaced Bold", Font.PLAIN, 30));
+				pd.drawString(String.valueOf(redWins),550, 350);
+			}
+			if (score2 >= 10) {
+				pd.setColor(Color.blue);
+				pd.setFont(new Font("Monospaced Bold", Font.PLAIN, 30));
+				pd.drawString(String.valueOf(blueWins),550, 350);
+			}
+			pd.setColor(Color.white);
+			pd.drawString(String.valueOf(startOver), 490, 450);
+		}
+		else {
+			pd.setColor(Color.white);
+			pd.setFont(new Font("Monospaced Bold", Font.PLAIN, 30));
+			pd.drawString(String.valueOf(score1),200, 100);
+			pd.drawString(String.valueOf(score2),1000, 100);
+		}
+	}
+	
+	public boolean endGame(scoreboard score) {
+		if (score1 >= 10 || score2 >= 10) {
+			return true;
+		}
+		else if (GDV5.KeysPressed[KeyEvent.VK_2]) {
+			return false;
+		}
+		else {
+			return false;
+		}
+	}
+}
