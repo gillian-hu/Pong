@@ -1,0 +1,102 @@
+package breakout;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
+public class Brick extends Rectangle {
+	
+	static Color color;
+	private boolean hit = false;
+	private boolean gotHitTwice = false;
+	public int timesHit;
+	private Brick[]Array;
+	private int padding = 2;
+	private boolean disappear = false;
+	private boolean disappear2 = false;
+	private boolean disappear3 = false;
+	
+	public Brick(int x, int y, int width, int height, Color c) {
+		super(x, y, width, height);
+		color = c;
+		hit = false;
+	}
+	
+	public void setHit(boolean b) {
+		hit = b;
+	}
+	
+	public boolean getHit() {
+		return hit;
+	}
+	
+	public void setHitTwice(boolean b) {
+		gotHitTwice = b;
+	}
+	
+	public boolean getHitTwice() {
+		return gotHitTwice;
+	}
+	
+	public boolean isDestroyed() {
+		if (timesHit >= 2) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public void particleEffect() {
+		this.Array = new Brick[75];
+		int x = this.x;
+		int y = this.y;
+		for (int r = 0; r < 75; r++) {
+			this.Array[r] = new Brick(x, y, 2, 2, Color.cyan);
+			x = (int)(Math.random()*98) + this.x;
+			y = (int)(Math.random()*20)+ this.y;
+		}
+	}
+	
+	public void drawParticleEffect1(Graphics2D tr, sphere ball) {
+		for (int r = 0; r < 75; r++) {
+			if (disappear == false) {
+				tr.setColor(Color.gray);
+				tr.fill(this.Array[r]);
+				if (ball.y > 300) {
+					disappear = true;
+				}
+			}
+		}
+	}
+	
+	public void drawParticleEffect2(Graphics2D tr, sphere ball) {
+		for (int r = 0; r < 75; r++) {
+			if (disappear2 == false) {
+				tr.setColor(Color.gray);
+				tr.fill(this.Array[r]);
+				if (ball.y > 300) {
+					disappear2 = true;
+				}
+			}
+		}
+	}
+	
+	public void drawParticleEffect3(Graphics2D tr, sphere ball) {
+		for (int r = 0; r < 75; r++) {
+			if (disappear3 == false) {
+				tr.setColor(Color.gray);
+				tr.fill(this.Array[r]);
+				if (ball.y > 300) {
+					disappear3 = true;
+				}
+			}
+		}
+	}
+	
+	public void draw(Graphics2D pb) {
+		pb.setColor(color);
+		pb.fill(this);
+	}
+
+}
